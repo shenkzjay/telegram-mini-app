@@ -42,12 +42,13 @@ function App() {
           {userData && (
             <div className="text-slate-400 flex flex-row gap-2 items-center mb-6">
               <span>
-                <img
+                {/* <img
                   src={userData.photo_url}
-                  width={50}
-                  height={50}
+                  width={30}
+                  height={30}
                   className="rounded-xl object-cover"
-                />
+                /> */}
+                {userData.photo_url}
               </span>
               <p>{userData.username}</p>
             </div>
@@ -80,7 +81,7 @@ function App() {
           </div>
         </div>
 
-        <div className="h-full pt-10 flex flex-col w-full justify-center items-center ">
+        <div className="h-full flex flex-col w-full justify-center items-center ">
           <button className="active:scale-95 h-full">
             <img src="/pig.png" width={300} height={300} alt="piggy bank" />
           </button>
