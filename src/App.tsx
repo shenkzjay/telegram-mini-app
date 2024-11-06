@@ -13,14 +13,46 @@ interface UserData {
   photo_url?: string;
 }
 
+interface ClickProps {
+  id: number;
+  x: number;
+  y: number;
+}
+
 function App() {
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [points, setPoints] = useState(2000000000);
+  const [energy, setEnergy] = useState(5000);
+  const [click, setClick] = useState<ClickProps[]>([]);
+
+  const pointsAdded = 10;
+  const energySubtrated = 10;
 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
   });
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (energy - energySubtrated < 0) {
+      return;
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    setClick((prev) => [...prev, { id: Date.now(), x, y }]);
+
+    setPoints(points + pointsAdded);
+
+    setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
+  };
+
+  const handleAnimationEnd = (id: number) => {
+    setClick((prev) => prev.filter((click) => click.id !== id));
+  };
 
   return (
     <main className="flex flex-col justify-between h-screen bg-[#1a1a1a]">
@@ -56,12 +88,12 @@ function App() {
           <nav className="flex flex-row justify-between">
             <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
               <span>🪙</span>
-              <p>2,000,000,000</p>
+              <p>{points.toLocaleString()}</p>
             </div>
 
             <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
-              <span>🪙</span>
-              <p>2,000,000,000</p>
+              <span className="">⚡️</span>
+              <p>{energy.toLocaleString()}</p>
             </div>
           </nav>
         </header>
@@ -82,25 +114,38 @@ function App() {
         </div>
 
         <div className="h-full flex flex-col w-full justify-center items-center ">
-          <button className="active:scale-95 h-full">
+          <button className="active:scale-95 h-full" onClick={handleClick}>
             <img src="/pig.png" width={300} height={300} alt="piggy bank" />
           </button>
+          <div>
+            {click &&
+              click.map((clicker, index) => (
+                <button
+                  key={index}
+                  style={{ left: `${clicker.x - 15}px` }}
+                  className="absolute text-6xl opacity-100 clicker top-[40%]"
+                  onAnimationEnd={() => handleAnimationEnd(clicker.id)}
+                >
+                  💰
+                </button>
+              ))}
+          </div>
         </div>
       </div>
 
       <footer>
-        <nav className="py-2">
+        <nav className="py-4">
           <ul className="flex flex-row mx-6 text-xs bg-[#262626] p-2 gap-2 rounded-xl text-gray-400">
-            <li className="p-2 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
+            <li className="p-4 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
               Earn
             </li>
-            <li className="p-2 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
+            <li className="p-4 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
               Task
             </li>
-            <li className="p-2 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
+            <li className="p-4 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
               Wallet
             </li>
-            <li className="p-2 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
+            <li className="p-4 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
               Friends
             </li>
           </ul>
