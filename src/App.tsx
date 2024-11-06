@@ -38,17 +38,32 @@ function App() {
             <li>is_premium: {userData.is_premium ? "YES" : "NO"}</li>
           </ul>
         )} */}
-        <nav className="flex flex-row justify-between">
-          <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
-            <span>🪙</span>
-            <p>2,000,000,000</p>
-          </div>
+        <header>
+          {userData && (
+            <div className="text-slate-400 flex flex-row gap-2 items-center mb-6">
+              <span>
+                <img
+                  src={userData.photo_url}
+                  width={50}
+                  height={50}
+                  className="rounded-xl object-cover"
+                />
+              </span>
+              <p>{userData.username}</p>
+            </div>
+          )}
+          <nav className="flex flex-row justify-between">
+            <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
+              <span>🪙</span>
+              <p>2,000,000,000</p>
+            </div>
 
-          <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
-            <span>🪙</span>
-            <p>2,000,000,000</p>
-          </div>
-        </nav>
+            <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
+              <span>🪙</span>
+              <p>2,000,000,000</p>
+            </div>
+          </nav>
+        </header>
 
         <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-10">
           <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
@@ -65,7 +80,7 @@ function App() {
           </div>
         </div>
 
-        <div className="h-full pt-20 flex flex-col w-full justify-center items-center ">
+        <div className="h-full pt-10 flex flex-col w-full justify-center items-center ">
           <button className="active:scale-95 h-full">
             <img src="/pig.png" width={300} height={300} alt="piggy bank" />
           </button>
