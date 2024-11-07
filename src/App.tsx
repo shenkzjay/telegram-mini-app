@@ -34,7 +34,7 @@ function App() {
     }
   });
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (energy - energySubtrated < 0) {
       return;
     }
@@ -114,7 +114,7 @@ function App() {
         </div>
 
         <div className="h-full flex flex-col w-full justify-center items-center ">
-          <button className=" h-full" onClick={handleClick}>
+          <button className=" h-full" onPointerDown={handleClick}>
             <img src="/pig.png" width={300} height={300} alt="piggy bank" />
           </button>
           <div>
