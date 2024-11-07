@@ -114,7 +114,7 @@ function App() {
         </div>
 
         <div className="h-full flex flex-col w-full justify-center items-center ">
-          <button className="active:scale-95 h-full" onClick={handleClick}>
+          <button className=" h-full" onClick={handleClick}>
             <img src="/pig.png" width={300} height={300} alt="piggy bank" />
           </button>
           <div>
@@ -136,7 +136,7 @@ function App() {
       <footer>
         <nav className="py-4">
           <ul className="flex flex-row mx-6 text-xs bg-[#262626] p-2 gap-2 rounded-xl text-gray-400">
-            <li className="p-4 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
+            <li className="p-4 hover:bg-[#333333] active:bg-[#333] w-full rounded-xl text-center cursor-pointer">
               Earn
             </li>
             <li className="p-4 hover:bg-[#333333] w-full rounded-xl text-center cursor-pointer">
