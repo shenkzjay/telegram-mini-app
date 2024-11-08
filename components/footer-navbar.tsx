@@ -1,5 +1,3 @@
-import React from "react";
-
 export const FooterNavbar = () => {
   return (
     <nav className="py-4">
