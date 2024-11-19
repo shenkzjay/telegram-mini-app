@@ -109,10 +109,10 @@ export function Earn() {
         </header>
 
         <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-10">
-          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
+          <button className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
             <span className="text-center text-3xl">✅</span>
             <p>Daily login</p>
-          </div>
+          </button>
           <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
             <span className="text-center text-3xl">🎡</span>
             <p>Lucky code</p>
@@ -122,6 +122,8 @@ export function Earn() {
             <p>Airdrop</p>
           </div>
         </div>
+
+        {/* POPOVERS */}
 
         <div className="h-full flex flex-col w-full justify-center items-center mt-16">
           <button className=" h-full active:scale-95" onPointerDown={handleClick}>
