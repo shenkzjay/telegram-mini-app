@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useEffect, useRef } from "react";
+import { forwardRef, Ref, useRef } from "react";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -39,5 +39,7 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     );
   }
 );
+
+Modal.displayName = "Modal";
 
 export { Modal };
