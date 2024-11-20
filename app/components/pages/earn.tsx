@@ -8,6 +8,7 @@ import { Modal } from "../footer/modal/modal";
 import { Wheel } from "@/app/assets/svgs/wheel";
 import { Tick } from "@/app/assets/svgs/tick";
 import { Cart } from "@/app/assets/svgs/cart";
+import Link from "next/link";
 
 export interface UserData {
   id: number;
@@ -135,12 +136,15 @@ export function Earn() {
             </span>
             <p>Lucky code</p>
           </div>
-          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white">
+          <Link
+            href="/market"
+            className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white"
+          >
             <span className="text-center text-3xl grid justify-center">
               <Cart />
             </span>
             <p>Marketplace</p>
-          </div>
+          </Link>
         </div>
 
         {/* POPOVERS */}
