@@ -108,29 +108,29 @@ export function Earn() {
             </div>
           )}
           <nav className="flex flex-row justify-between">
-            <div className="flex flex-row gap-1 text-xs font-bold footerbg p-1 rounded-xl text-white">
+            <div className="entryanime  flex flex-row gap-1 text-base font-bold footerbg p-1 rounded-xl text-white">
               <span>🪙</span>
               <p>{points.toLocaleString()}</p>
             </div>
 
-            <div className="flex flex-row gap-1 text-xs font-bold footerbg p-1 rounded-xl text-white">
+            <div className=" entryanime flex flex-row gap-1 text-base font-bold footerbg p-1 rounded-xl text-white">
               <span className="">⚡️</span>
               <p>{energy.toLocaleString()}</p>
             </div>
           </nav>
         </header>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-10 justify-center item-center">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-6 justify-center item-center">
           <button
             onClick={handleOpenDailyLoginModal}
-            className="tickgroup grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white items-center"
+            className="tickgroup entryanime grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-xs justify-center bg-[#262626] text-white items-center"
           >
             <span className="text-center text-3xl grid justify-center">
               <Tick />
             </span>
             <p>Daily login</p>
           </button>
-          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white">
+          <div className="entryanime grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-xs justify-center bg-[#262626] text-white">
             <span className="text-center text-3xl grid justify-center">
               <Wheel />
             </span>
@@ -138,7 +138,7 @@ export function Earn() {
           </div>
           <Link
             href="/market"
-            className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white"
+            className="entryanime grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-xs justify-center bg-[#262626] text-white"
           >
             <span className="text-center text-3xl grid justify-center">
               <Cart />
