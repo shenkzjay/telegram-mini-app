@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FooterNavbar } from "../footer/footer";
 import Image from "next/image";
 import Pig from "@/app/assets/imgs/pig.png";
+import { Modal } from "../footer/modal/modal";
+import { Wheel } from "@/app/assets/svgs/wheel";
+import { Tick } from "@/app/assets/svgs/tick";
+import { Cart } from "@/app/assets/svgs/cart";
 
 export interface UserData {
   id: number;
@@ -26,6 +30,7 @@ export function Earn() {
   const [points, setPoints] = useState(2000000000);
   const [energy, setEnergy] = useState(5000);
   const [click, setClick] = useState<ClickProps[]>([]);
+  const dailyLoginRef = useRef<HTMLDialogElement | null>(null);
 
   const pointsAdded = 10;
   const energySubtrated = 10;
@@ -64,8 +69,14 @@ export function Earn() {
     setClick((prev) => prev.filter((click) => click.id !== id));
   };
 
+  const handleOpenDailyLoginModal = () => {
+    if (dailyLoginRef.current) {
+      dailyLoginRef.current.showModal();
+    }
+  };
+
   return (
-    <main className="flex flex-col justify-between h-screen bg-[#1a1a1a]">
+    <main className="flex flex-col justify-between h-screen ">
       <div className="mx-6 mt-6">
         {/* {userData && (
             <ul>
@@ -96,30 +107,39 @@ export function Earn() {
             </div>
           )}
           <nav className="flex flex-row justify-between">
-            <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
+            <div className="flex flex-row gap-1 text-xs font-bold footerbg p-1 rounded-xl text-white">
               <span>🪙</span>
               <p>{points.toLocaleString()}</p>
             </div>
 
-            <div className="flex flex-row gap-1 text-xs font-bold bg-orange-300 p-1 rounded-xl">
+            <div className="flex flex-row gap-1 text-xs font-bold footerbg p-1 rounded-xl text-white">
               <span className="">⚡️</span>
               <p>{energy.toLocaleString()}</p>
             </div>
           </nav>
         </header>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-10">
-          <button className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
-            <span className="text-center text-3xl">✅</span>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-10 justify-center item-center">
+          <button
+            onClick={handleOpenDailyLoginModal}
+            className="tickgroup grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white items-center"
+          >
+            <span className="text-center text-3xl grid justify-center">
+              <Tick />
+            </span>
             <p>Daily login</p>
           </button>
-          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
-            <span className="text-center text-3xl">🎡</span>
+          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white">
+            <span className="text-center text-3xl grid justify-center">
+              <Wheel />
+            </span>
             <p>Lucky code</p>
           </div>
-          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-gray-400">
-            <span className="text-center text-3xl">🔮</span>
-            <p>Airdrop</p>
+          <div className=" grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-sm justify-center bg-[#262626] text-white">
+            <span className="text-center text-3xl grid justify-center">
+              <Cart />
+            </span>
+            <p>Marketplace</p>
           </div>
         </div>
 
@@ -155,6 +175,53 @@ export function Earn() {
       <footer className="">
         <FooterNavbar />
       </footer>
+      <Modal ref={dailyLoginRef}>
+        <section>
+          <div className="flex flex-col justify-center w-full items-center text-white">
+            <h3>Daily reward</h3>
+            <div>
+              <span>coin bounce</span>
+            </div>
+          </div>
+          <div className=" grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-1 h-full p-6 w-[85vw] md:w-[20vw] text-white">
+            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 1</p>
+            </span>
+            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 2</p>
+            </span>
+            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 3</p>
+            </span>
+            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 4</p>
+            </span>
+            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 5</p>
+            </span>
+            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 6</p>
+            </span>
+            <span className="grid col-span-3 grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+              <span>✓</span>
+              <span>🪙</span>
+              <p>Day 7</p>
+            </span>
+          </div>
+        </section>
+      </Modal>
     </main>
   );
 }

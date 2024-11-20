@@ -7,13 +7,13 @@ export const FooterNavbar = () => {
   const pathname = usePathname();
   return (
     <nav className="py-6 mx-6">
-      <ul className="flex flex-row text-xs bg-[#262626] rounded-xl text-gray-400 w-full">
+      <ul className="flex flex-row text-xs footerbg rounded-xl text-white w-full">
         {/* <li className="p-4 hover:bg-[#333333] active:bg-[#333] w-full rounded-xl text-center cursor-pointer"> */}
         {/* <a href="/earn">Earn</a> */}
         <Link
           href="/earn"
           className={` ${
-            pathname === "/earn" ? "bg-[#333]" : ""
+            pathname === "/earn" ? "footerbg font-bold" : ""
           } p-3 m-1 flex justify-center items-center  w-full`}
         >
           Earn
@@ -24,7 +24,7 @@ export const FooterNavbar = () => {
         <Link
           href="/task"
           className={` ${
-            pathname === "/task" ? "bg-[#333]" : ""
+            pathname === "/task" ? "footerbg font-bold" : ""
           } p-3 m-1 flex justify-center items-center  w-full`}
         >
           Task
@@ -35,7 +35,7 @@ export const FooterNavbar = () => {
         <Link
           href="/wallet"
           className={` ${
-            pathname === "/wallet" ? "bg-[#333]" : ""
+            pathname === "/wallet" ? "footerbg font-bold" : ""
           } p-3 m-1 flex justify-center items-center  w-full`}
         >
           Wallet
@@ -46,7 +46,7 @@ export const FooterNavbar = () => {
         <Link
           href="/friends"
           className={`  ${
-            pathname === "/friends" ? "bg-[#333]" : ""
+            pathname === "/friends" ? "footerbg font-bold" : ""
           } p-3 m-1 flex justify-center items-center w-full`}
         >
           Friends

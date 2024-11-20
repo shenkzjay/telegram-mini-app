@@ -26,7 +26,7 @@ export default function Friends() {
     initWebApp();
   }, []);
   return (
-    <main className="bg-[#1a1a1a] flex flex-col h-screen w-full justify-between">
+    <main className="flex flex-col h-screen w-full justify-between">
       <h2 className="text-slate-400 font-bold mx-6 pt-6">{userData?.username ?? "Shenkz-coin"}</h2>
 
       <ReferralSystem initData={initData} startParams={startParams} userId={userId} />

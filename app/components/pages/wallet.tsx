@@ -70,13 +70,13 @@ export const TonWallet = () => {
   return (
     <main className="flex flex-col justify-between h-screen">
       <section className="w-full flex flex-col pt-64 items-center gap-6">
-        <h3 className="text-slate-400 font-bold">TON CONNECT ADDRESS</h3>
+        <h3 className="text-white font-bold">TON CONNECT ADDRESS</h3>
         {walletAddress ? (
           <div className="flex flex-col gap-6">
-            <p className="text-slate-400">Connected: {formatAddress(walletAddress)}</p>
+            <p className="text-white">Connected: {formatAddress(walletAddress)}</p>
 
             <button
-              className="py-2 px-4 bg-[#262626] rounded-xl text-slate-400"
+              className="py-2 px-4 footerbg rounded-xl text-white"
               onClick={handleWalletDisconnect}
             >
               Disconnect wallet
@@ -85,7 +85,7 @@ export const TonWallet = () => {
         ) : (
           <div>
             <button
-              className="py-2 px-4 bg-[#262626] rounded-xl text-slate-400"
+              className="py-2 px-4 footerbg rounded-xl text-white"
               onClick={handleWalletAction}
             >
               Connect Ton Wallet
