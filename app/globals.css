@@ -121,6 +121,32 @@ dialog::backdrop {
     forwards;
 }
 
+.task {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: dash 2s linear forwards;
+}
+
+.task.line {
+  animation: dash 2s linear forwards, taskline 1s linear forwards;
+}
+.task.line2 {
+  animation: dash 2s linear forwards, taskline 1s 300ms linear forwards;
+}
+.task.line3 {
+  animation: dash 2s linear forwards, taskline 1s 500ms linear forwards;
+}
+
+.task.checked {
+  animation: dash 2s linear forwards, taskchecked 1s linear forwards;
+}
+.task.checked2 {
+  animation: dash 2s linear forwards, taskchecked 1s 300ms linear forwards;
+}
+.task.checked3 {
+  animation: dash 2s linear forwards, taskchecked 1s 500ms linear forwards;
+}
+
 @keyframes dash {
   to {
     stroke-dashoffset: 1;
@@ -182,5 +208,33 @@ dialog::backdrop {
 
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes taskline {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px) skew(5deg);
+
+    color: red;
+  }
+}
+
+@keyframes taskchecked {
+  0%,
+  100% {
+    transform: scale(1);
+    transform-origin: center;
+  }
+
+  50% {
+    transform: scale(1.5) skew(5deg);
+    transform-origin: center;
+
+    color: greenyellow;
   }
 }
