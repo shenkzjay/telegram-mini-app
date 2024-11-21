@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import WebApp from "@twa-dev/sdk";
 import { FooterNavbar } from "../footer/footer";
+import Image from "next/image";
+import FriendImage from "@/app/assets/imgs/friends.png";
 
 interface ReferralSystemProps {
   initData: string;
@@ -109,13 +111,27 @@ export function ReferralSystem({ userId, startParams }: ReferralSystemProps) {
   return (
     <section className="flex flex-col h-screen w-full justify-between">
       <div className="mx-6">
-        <div className="flex flex-col gap-6 text-slate-400">
+        <div className=" relative flex flex-col justify-center items-center mt-6">
+          {/* <h3>Task</h3> */}
+          <span className="flex justify-center items-center">
+            <Image
+              src={FriendImage}
+              width={100}
+              height={100}
+              alt="3d icon of a guy writing on a notepad with a pencil"
+              className="w-32 h-32"
+            />
+          </span>
+          <span className="absolute -bottom-16 [background:radial-gradient(ellipse,_rgba(124,120,20,1)_20%,_transparent_50%)] -z-10 w-[60vw] h-[30vh]"></span>
+        </div>
+
+        <div className="flex flex-col gap-6 text-white footerbg p-6">
           {referredBy && <h3>You were referred by {referredBy}</h3>}
           <div className="flex flex-col gap-6 mt-6">
-            <button onClick={handleInviteFriend} className="bg-[#262626] py-2 px-4 rounded-xl">
+            <button onClick={handleInviteFriend} className="footerbg py-2 px-4 rounded-xl">
               Invite Friend
             </button>
-            <button onClick={handleCopyLink} className="bg-[#262626] py-2 px-4 rounded-xl">
+            <button onClick={handleCopyLink} className="footerbg py-2 px-4 rounded-xl">
               📋 Copy invite link
             </button>
           </div>

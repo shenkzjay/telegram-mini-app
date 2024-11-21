@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { FooterNavbar } from "../footer/footer";
 import Image from "next/image";
-import Pig from "@/app/assets/imgs/pig.png";
+// import Pig from "@/app/assets/imgs/pig.png";
+import SokCoin from "@/app/assets/imgs/coin.png";
 import Popcoin from "@/app/assets/imgs/popcoin.png";
 import { Modal } from "../footer/modal/modal";
 import { Wheel } from "@/app/assets/svgs/wheel";
@@ -171,10 +172,10 @@ export function Earn() {
 
         {/* POPOVERS */}
 
-        <div className="h-full flex flex-col w-full justify-center items-center mt-16">
+        <div className="h-full flex flex-col w-full justify-center items-center mt-6">
           <button className=" h-full active:scale-95" onPointerDown={handleClick}>
             <Image
-              src={Pig}
+              src={SokCoin}
               alt="pig image"
               width={200}
               height={200}

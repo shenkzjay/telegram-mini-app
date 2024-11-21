@@ -24,7 +24,7 @@ img {
 
   100% {
     opacity: 0;
-    transform: translateY(-100px);
+    transform: translateY(-200px);
     scale: 0.5;
   }
 }
