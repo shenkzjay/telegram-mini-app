@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { FooterNavbar } from "../footer/footer";
 import Image from "next/image";
 import Pig from "@/app/assets/imgs/pig.png";
+import Popcoin from "@/app/assets/imgs/popcoin.png";
 import { Modal } from "../footer/modal/modal";
 import { Wheel } from "@/app/assets/svgs/wheel";
 import { Tick } from "@/app/assets/svgs/tick";
@@ -28,8 +29,8 @@ interface ClickProps {
 
 export function Earn() {
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [points, setPoints] = useState(2000000000);
-  const [energy, setEnergy] = useState(5000);
+  const [points, setPoints] = useState(2000);
+  const [energy, setEnergy] = useState(1500);
   const [click, setClick] = useState<ClickProps[]>([]);
   const dailyLoginRef = useRef<HTMLDialogElement | null>(null);
 
@@ -70,6 +71,16 @@ export function Earn() {
     setClick((prev) => prev.filter((click) => click.id !== id));
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEnergy((prevEnergy) => Math.min(prevEnergy + 1, 1500));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   const handleOpenDailyLoginModal = () => {
     if (dailyLoginRef.current) {
       dailyLoginRef.current.showModal();
@@ -93,18 +104,17 @@ export function Earn() {
             </ul>
           )} */}
         <header>
-          {userData && (
-            <div className="text-slate-400 flex flex-row gap-2 items-center mb-6">
-              <span>
-                {/* <img
-                    src={userData.photo_url}
-                    width={30}
-                    height={30}
-                    className="rounded-xl object-cover"
-                  /> */}
-                {/* {userData.photo_url} */}
-              </span>
-              <p>{userData.username}</p>
+          {userData ? (
+            <div className="footerbg !rounded-full p-[2px] text-white flex flex-row gap-1 items-center mb-4 w-fit text-xs">
+              <span className="w-6 h-6 bg-white rounded-full"></span>
+              <p className="px-2">{userData?.username}</p>
+              <p>lv1</p>
+            </div>
+          ) : (
+            <div className=" footerbg !rounded-full p-[2px] text-white flex flex-row gap-1 items-center mb-4 w-fit text-xs">
+              <span className="w-6 h-6 bg-white rounded-full"></span>
+              <p className="px-2 ">Shenkz</p>
+              <p>lv1</p>
             </div>
           )}
           <nav className="flex flex-row justify-between">
@@ -113,14 +123,24 @@ export function Earn() {
               <p>{points.toLocaleString()}</p>
             </div>
 
-            <div className=" entryanime flex flex-row gap-1 text-base font-bold footerbg p-1 rounded-xl text-white">
+            <div className="relative entryanime flex flex-row gap-1 text-xs items-center font-bold footerbg p-2 rounded-xl text-white">
+              <span
+                className={`absolute top-1.5 left-1 rounded-[5px] ${
+                  energy <= 600
+                    ? "bg-red-400/40"
+                    : energy <= 1200
+                    ? "bg-yellow-400/40"
+                    : "bg-green-400/40"
+                } w-[90%] h-2/3 flex -z-10`}
+                style={{ width: `${(energy / 1500) * 100 - 10}%` }}
+              ></span>
               <span className="">⚡️</span>
-              <p>{energy.toLocaleString()}</p>
+              <p>{energy.toLocaleString()}/1500</p>
             </div>
           </nav>
         </header>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-6 justify-center item-center">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-4 justify-center item-center">
           <button
             onClick={handleOpenDailyLoginModal}
             className="tickgroup entryanime grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-xs justify-center bg-[#262626] text-white items-center"
@@ -169,7 +189,14 @@ export function Earn() {
                   className="absolute text-6xl opacity-100 clicker top-[40%] text-white"
                   onAnimationEnd={() => handleAnimationEnd(clicker.id)}
                 >
-                  #10
+                  <Image
+                    src={Popcoin}
+                    width={100}
+                    height={100}
+                    alt="coin illustration"
+                    priority
+                    className="w-24 h-24"
+                  />
                 </button>
               ))}
           </div>
@@ -189,39 +216,39 @@ export function Earn() {
           </div>
           <div className=" grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-1 h-full p-6 w-[85vw] md:w-[20vw] text-white">
             <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 1</span>
               <span>🪙</span>
-              <p>Day 1</p>
+              <p>5k</p>
             </span>
             <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 2</span>
               <span>🪙</span>
-              <p>Day 2</p>
+              <p>10k</p>
             </span>
             <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 3</span>
               <span>🪙</span>
-              <p>Day 3</p>
+              <p>25k</p>
             </span>
             <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 4</span>
               <span>🪙</span>
-              <p>Day 4</p>
+              <p>50K</p>
             </span>
             <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 5</span>
               <span>🪙</span>
-              <p>Day 5</p>
+              <p>100k</p>
             </span>
             <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 6</span>
               <span>🪙</span>
-              <p>Day 6</p>
+              <p>250k</p>
             </span>
             <span className="grid col-span-3 grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>✓</span>
+              <span>Day 7</span>
               <span>🪙</span>
-              <p>Day 7</p>
+              <p>1M</p>
             </span>
           </div>
         </section>
