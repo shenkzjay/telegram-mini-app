@@ -1,4 +1,3 @@
-import TaskSvg from "@/app/assets/svgs/task";
 import { FooterNavbar } from "../footer/footer";
 import { Youtube } from "@/app/assets/svgs/youtube";
 import TaskImage from "@/app/assets/imgs/task.png";
