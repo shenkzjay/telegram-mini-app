@@ -51,6 +51,7 @@ export function Earn() {
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    navigator.vibrate(100);
 
     if (energy - energySubtrated < 0) {
       return;
@@ -69,6 +70,7 @@ export function Earn() {
 
   const handleAnimationEnd = (id: number) => {
     setClick((prev) => prev.filter((click) => click.id !== id));
+    navigator.vibrate(0);
   };
 
   useEffect(() => {
