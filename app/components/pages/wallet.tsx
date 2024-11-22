@@ -71,7 +71,7 @@ export const TonWallet = () => {
 
   return (
     <main className="flex flex-col justify-between h-screen">
-      <div className="flex flex-col gap-32">
+      <div className="flex flex-col gap-16">
         <div className=" relative flex flex-col justify-center items-center mt-6">
           {/* <h3>Task</h3> */}
           <span className="flex justify-center items-center">
