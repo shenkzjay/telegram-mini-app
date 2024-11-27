@@ -30,10 +30,16 @@ interface ClickProps {
 
 export function Earn() {
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [points, setPoints] = useState(2000);
+  const [points, setPoints] = useState(0);
   const [energy, setEnergy] = useState(1500);
   const [click, setClick] = useState<ClickProps[]>([]);
   const dailyLoginRef = useRef<HTMLDialogElement | null>(null);
+  const [dailyStreak, setDailyStreak] = useState(0);
+  const [completedDays, setCompletedDays] = useState<number[]>([]);
+  const [isStreakClaimed, setisStreakClaimed] = useState(false);
+  const rewards = [5000, 10000, 25000, 50000, 100000, 250000, 750000];
+
+  console.log(isStreakClaimed);
 
   const pointsAdded = 10;
   const energySubtrated = 10;
@@ -79,15 +85,67 @@ export function Earn() {
       setEnergy((prevEnergy) => Math.min(prevEnergy + 1, 1500));
     }, 1000);
 
+    const lastLogin = Number(localStorage.getItem("lastlogin"));
+    const currentDate = new Date().getTime();
+    const modalShownToday = localStorage.getItem("modalShownToday") === "true";
+    let streakData = JSON.parse(localStorage.getItem("completedDays") || "[]");
+
+    console.log({ currentDate, lastLogin });
+
+    if (lastLogin) {
+      const lastLoginDate = new Date(lastLogin).getTime();
+      const differenceInDays = Math.floor((currentDate - lastLoginDate) / (1000 * 60 * 60 * 24));
+
+      if (differenceInDays === 1) {
+        // Increment streak if logged in after exactly one day
+
+        setDailyStreak((prevStreak) => prevStreak + 1);
+        if (!streakData.includes(dailyStreak)) {
+          streakData.push(dailyStreak); // Add new streak day
+          // setisStreakClaimed(false);
+        }
+      } else if (differenceInDays > 1) {
+        // Reset streak if more than one day has passed
+        setDailyStreak(1);
+        streakData = [1]; // Reset streak data to day 1
+      }
+    } else {
+      // First-time login
+      setDailyStreak(1);
+      streakData = [1];
+    }
+
+    // Save updated streak data to localStorage
+    setCompletedDays(streakData);
+    localStorage.setItem("lastLogin", `${currentDate}`);
+    localStorage.setItem("completedDays", JSON.stringify(streakData));
+
+    // Open modal only if it hasn't been shown today
+    if (!modalShownToday) {
+      handleOpenDailyLoginModal();
+      localStorage.setItem("modalShownToday", "true");
+    }
     return () => {
       clearInterval(interval);
     };
   }, []);
 
+  console.log(completedDays);
+
   const handleOpenDailyLoginModal = () => {
     if (dailyLoginRef.current) {
       dailyLoginRef.current.showModal();
     }
+  };
+
+  const handleClaimReward = () => {
+    const currentReward = rewards[dailyStreak - 1] || rewards[rewards.length - 1];
+
+    setPoints((prevPoints) => prevPoints + currentReward);
+
+    dailyLoginRef.current?.close();
+
+    setisStreakClaimed(true);
   };
 
   return (
@@ -210,7 +268,7 @@ export function Earn() {
         <FooterNavbar />
       </footer>
       <Modal ref={dailyLoginRef}>
-        <section>
+        <section className="">
           <div className="flex flex-col justify-center w-full items-center text-white">
             <h3>Daily reward</h3>
             <div>
@@ -218,12 +276,19 @@ export function Earn() {
             </div>
           </div>
           <div className=" grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-1 h-full p-6 w-[85vw] md:w-[20vw] text-white">
-            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 1</span>
-              <span>🪙</span>
-              <p>5k</p>
-            </span>
-            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
+            {Array.from({ length: 7 }, (_, index) => {
+              return (
+                <span
+                  key={index}
+                  className={`grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center `}
+                >
+                  <span>Day {index + 1}</span>
+                  {completedDays.includes(index + 1) ? <span>✅</span> : <span>🪙</span>}
+                  <p>{rewards[index]}k</p>
+                </span>
+              );
+            })}
+            {/* <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
               <span>Day 2</span>
               <span>🪙</span>
               <p>10k</p>
@@ -252,7 +317,17 @@ export function Earn() {
               <span>Day 7</span>
               <span>🪙</span>
               <p>1M</p>
-            </span>
+            </span> */}
+          </div>
+          <div className="flex justify-center items-center m-6">
+            {!isStreakClaimed && (
+              <button
+                onClick={handleClaimReward}
+                className="flex w-full justify-center items-center font-bold  py-2 px-4 bg-orange-500 rounded-xl text-white"
+              >
+                Claim {rewards[dailyStreak - 1] || rewards[rewards.length - 1]}k coins
+              </button>
+            )}
           </div>
         </section>
       </Modal>
