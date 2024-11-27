@@ -84,7 +84,12 @@ export function Earn() {
     const interval = setInterval(() => {
       setEnergy((prevEnergy) => Math.min(prevEnergy + 1, 1500));
     }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
+  useEffect(() => {
     const lastLogin = Number(localStorage.getItem("lastlogin"));
     const currentDate = new Date().getTime();
     const modalShownToday = localStorage.getItem("modalShownToday") === "true";
@@ -125,9 +130,6 @@ export function Earn() {
       handleOpenDailyLoginModal();
       localStorage.setItem("modalShownToday", "true");
     }
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   console.log(completedDays);
