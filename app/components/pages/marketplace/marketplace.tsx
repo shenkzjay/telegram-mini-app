@@ -30,7 +30,43 @@ export function Marketplace() {
         </div>
 
         <section>
-          <div className=" grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4 h-[75vh] overflow-auto mt-6 text-white">
+          <div className=" grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4 h-[76vh] overflow-auto mt-6 text-white">
+            <span className=" entryanime grid grid-rows-subgrid row-span-2 p-2 footerbg text-sm font-semibold justify-center">
+              <Image src={Pig} width={100} height={100} alt={"product image"} />
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p className="font-bold">Shirt - 4.99TON</p>
+                <button className="footerbg p-2 text-xs flex justify-center items-center w-full">
+                  ＋ Add to cart
+                </button>
+              </div>
+            </span>
+            <span className=" entryanime grid grid-rows-subgrid row-span-2 p-2 footerbg text-sm font-semibold justify-center">
+              <Image src={Pig} width={100} height={100} alt={"product image"} />
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p className="font-bold">Shirt - 4.99TON</p>
+                <button className="footerbg p-2 text-xs flex justify-center items-center w-full">
+                  ＋ Add to cart
+                </button>
+              </div>
+            </span>
+            <span className=" entryanime grid grid-rows-subgrid row-span-2 p-2 footerbg text-sm font-semibold justify-center">
+              <Image src={Pig} width={100} height={100} alt={"product image"} />
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p className="font-bold">Shirt - 4.99TON</p>
+                <button className="footerbg p-2 text-xs flex justify-center items-center w-full">
+                  ＋ Add to cart
+                </button>
+              </div>
+            </span>
+            <span className=" entryanime grid grid-rows-subgrid row-span-2 p-2 footerbg text-sm font-semibold justify-center">
+              <Image src={Pig} width={100} height={100} alt={"product image"} />
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p className="font-bold">Shirt - 4.99TON</p>
+                <button className="footerbg p-2 text-xs flex justify-center items-center w-full">
+                  ＋ Add to cart
+                </button>
+              </div>
+            </span>
             <span className=" entryanime grid grid-rows-subgrid row-span-2 p-2 footerbg text-sm font-semibold justify-center">
               <Image src={Pig} width={100} height={100} alt={"product image"} />
               <div className="flex flex-col gap-2 justify-center items-center">

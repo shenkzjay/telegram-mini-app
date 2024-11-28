@@ -39,8 +39,6 @@ export function Earn() {
   const [isStreakClaimed, setisStreakClaimed] = useState(false);
   const rewards = [5000, 10000, 25000, 50000, 100000, 250000, 750000];
 
-  console.log(isStreakClaimed);
-
   const pointsAdded = 10;
   const energySubtrated = 10;
 
@@ -90,7 +88,7 @@ export function Earn() {
   }, []);
 
   useEffect(() => {
-    const lastLogin = Number(localStorage.getItem("lastlogin"));
+    const lastLogin = Number(JSON.parse(localStorage.getItem("lastLogin") as string));
     const currentDate = new Date().getTime();
     const modalShownToday = localStorage.getItem("modalShownToday") === "true";
     let streakData = JSON.parse(localStorage.getItem("completedDays") || "[]");
@@ -100,6 +98,8 @@ export function Earn() {
     if (lastLogin) {
       const lastLoginDate = new Date(lastLogin).getTime();
       const differenceInDays = Math.floor((currentDate - lastLoginDate) / (1000 * 60 * 60 * 24));
+
+      console.log({ currentDate, lastLogin, differenceInDays });
 
       if (differenceInDays === 1) {
         // Increment streak if logged in after exactly one day
