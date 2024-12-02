@@ -59,7 +59,7 @@ export function Earn() {
         const initDataUnsafe = tg.initDataUnsafe || {};
 
         if (initDataUnsafe.user) {
-          const data = await fetch("/user", {
+          const data = await fetch("/api/user", {
             headers: {
               "Content-Type": "application/json",
             },
