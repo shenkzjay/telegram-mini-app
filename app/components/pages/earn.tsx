@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { FooterNavbar } from "../footer/footer";
 import Image from "next/image";
-// import Pig from "@/app/assets/imgs/pig.png";
 import SokCoin from "@/app/assets/imgs/coin.png";
 import Popcoin from "@/app/assets/imgs/popcoin.png";
 import { Modal } from "../footer/modal/modal";
@@ -11,6 +10,7 @@ import { Wheel } from "@/app/assets/svgs/wheel";
 import { Tick } from "@/app/assets/svgs/tick";
 import { Cart } from "@/app/assets/svgs/cart";
 import Link from "next/link";
+import { WebApp } from "@twa-dev/types";
 
 export interface UserData {
   id: number;
@@ -28,14 +28,22 @@ interface ClickProps {
   y: number;
 }
 
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp: WebApp;
+    };
+  }
+}
+
 export function Earn() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [points, setPoints] = useState(0);
   const [energy, setEnergy] = useState(1500);
   const [click, setClick] = useState<ClickProps[]>([]);
   const dailyLoginRef = useRef<HTMLDialogElement | null>(null);
-  const [dailyStreak, setDailyStreak] = useState(0);
-  const [completedDays, setCompletedDays] = useState<number[]>([]);
+  const [dailyStreak] = useState(0);
+  const [completedDays] = useState<number[]>([]);
   const [isStreakClaimed, setisStreakClaimed] = useState(false);
   const rewards = [5000, 10000, 25000, 50000, 100000, 250000, 750000];
 
@@ -44,10 +52,26 @@ export function Earn() {
 
   useEffect(() => {
     const initWebApp = async () => {
-      if (typeof window !== "undefined") {
-        const WebApp = (await import("@twa-dev/sdk")).default;
-        WebApp.ready();
-        setUserData(WebApp.initDataUnsafe.user as UserData);
+      if (typeof window !== "undefined" && window.Telegram?.WebApp) {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+
+        const initDataUnsafe = tg.initDataUnsafe || {};
+
+        if (initDataUnsafe.user) {
+          const data = await fetch("/api/user", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(initDataUnsafe.user),
+          });
+
+          const res = await data.json();
+
+          setUserData(res);
+        }
+      } else {
+        return console.log("this is error");
       }
     };
 
@@ -87,52 +111,59 @@ export function Earn() {
     };
   }, []);
 
-  useEffect(() => {
-    const lastLogin = Number(JSON.parse(localStorage.getItem("lastLogin") as string));
-    const currentDate = new Date().getTime();
-    const modalShownToday = localStorage.getItem("modalShownToday") === "true";
-    let streakData = JSON.parse(localStorage.getItem("completedDays") || "[]");
+  // useEffect(() => {
+  //   const lastLogin = localStorage.getItem("lastLogin");
+  //   const currentDate = new Date();
+  //   const modalShownToday = localStorage.getItem("modalShownToday") === "true";
+  //   let streakData = JSON.parse(localStorage.getItem("completedDays") || "[]");
 
-    console.log({ currentDate, lastLogin });
+  //   if (lastLogin) {
+  //     const lastLoginDate = new Date(lastLogin);
+  //     const differenceInDays = Math.floor(
+  //       (currentDate.getTime() - lastLoginDate.getTime()) / (1000 * 60 * 60 * 24)
+  //     );
 
-    if (lastLogin) {
-      const lastLoginDate = new Date(lastLogin).getTime();
-      const differenceInDays = Math.floor((currentDate - lastLoginDate) / (1000 * 60 * 60 * 24));
+  //     if (differenceInDays === 1) {
+  //       // User logged in on consecutive day
+  //       const newStreak = (dailyStreak % 7) + 1;
+  //       setDailyStreak(newStreak);
+  //     } else if (differenceInDays > 1) {
+  //       // User missed a day, reset streak
+  //       setDailyStreak(1);
+  //       streakData = [1];
+  //     }
+  //   } else {
+  //     // First-time login
+  //     setDailyStreak(1);
+  //     streakData = [1];
+  //   }
 
-      console.log({ currentDate, lastLogin, differenceInDays });
+  //   if (!streakData.includes(dailyStreak)) {
+  //     streakData.push(dailyStreak);
+  //   }
 
-      if (differenceInDays === 1) {
-        // Increment streak if logged in after exactly one day
+  //   // Save current login date
+  //   setCompletedDays(streakData);
+  //   localStorage.setItem("lastLogin", currentDate.toISOString());
 
-        setDailyStreak((prevStreak) => prevStreak + 1);
-        if (!streakData.includes(dailyStreak)) {
-          streakData.push(dailyStreak); // Add new streak day
-          // setisStreakClaimed(false);
-        }
-      } else if (differenceInDays > 1) {
-        // Reset streak if more than one day has passed
-        setDailyStreak(1);
-        streakData = [1]; // Reset streak data to day 1
-      }
-    } else {
-      // First-time login
-      setDailyStreak(1);
-      streakData = [1];
-    }
+  //   // Open modal only if it hasn't been shown today
+  //   if (!modalShownToday) {
+  //     handleOpenDailyLoginModal();
+  //     localStorage.setItem("modalShownToday", "true");
+  //   }
 
-    // Save updated streak data to localStorage
-    setCompletedDays(streakData);
-    localStorage.setItem("lastLogin", `${currentDate}`);
-    localStorage.setItem("completedDays", JSON.stringify(streakData));
+  //   // Reset "modalShownToday" at midnight
+  //   const tomorrow = new Date(currentDate);
+  //   tomorrow.setDate(tomorrow.getDate() + 1);
+  //   tomorrow.setHours(0, 0, 0, 0);
+  //   const timeUntilMidnight = tomorrow.getTime() - currentDate.getTime();
 
-    // Open modal only if it hasn't been shown today
-    if (!modalShownToday) {
-      handleOpenDailyLoginModal();
-      localStorage.setItem("modalShownToday", "true");
-    }
-  }, []);
+  //   const midnightTimeout = setTimeout(() => {
+  //     localStorage.removeItem("modalShownToday");
+  //   }, timeUntilMidnight);
 
-  console.log(completedDays);
+  //   return () => clearTimeout(midnightTimeout);
+  // }, []);
 
   const handleOpenDailyLoginModal = () => {
     if (dailyLoginRef.current) {
