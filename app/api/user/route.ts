@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 
 export async function POST(req: Request) {
@@ -5,7 +6,7 @@ export async function POST(req: Request) {
     const userData = await req.json();
 
     if (!userData || !userData.id) {
-      return Response.json({ error: "Invalid user" });
+      return NextResponse.json({ error: "Invalid user" }, { status: 400 });
     }
 
     let users = await prisma.user.findUnique({
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
 
     // return { user: users, status: 200 };
 
-    return { users };
+    return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
     console.error("Error processing data" + error);
     return { error: "Internal server error" + error };
