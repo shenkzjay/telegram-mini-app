@@ -31,6 +31,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
     console.error("Error processing data" + error);
-    return { error: "Internal server error" + error };
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
