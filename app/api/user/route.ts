@@ -16,10 +16,10 @@ export async function POST(req: Request) {
     if (!users) {
       users = await prisma.user.create({
         data: {
-          telegramId: userData.id,
-          username: userData.username,
-          firstname: userData.first_name,
-          lastname: userData.last_name,
+          telegramId: userData.id || null,
+          username: userData.username || null,
+          firstname: userData.first_name || null,
+          lastname: userData.last_name || null,
         },
       });
     }
