@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
     // return { user: users, status: 200 };
 
-    return Response.json({ users });
+    return { users };
   } catch (error) {
     console.error("Error processing data" + error);
     return { error: "Internal server error" + error };
