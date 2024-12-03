@@ -236,7 +236,7 @@ export function Earn() {
           {userData ? (
             <div className="footerbg !rounded-full p-[2px] text-white flex flex-row gap-1 items-center mb-4 w-fit text-xs">
               <span className="w-6 h-6 bg-white rounded-full"></span>
-              <p className="px-2">{userData?.username || userData.firstname}</p>
+              <p className="px-2">{userData?.username || userData?.firstname}</p>
               <p>lv1</p>
             </div>
           ) : (
