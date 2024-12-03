@@ -60,6 +60,7 @@ export function Earn() {
 
         if (initDataUnsafe.user) {
           const data = await fetch("/api/user", {
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },

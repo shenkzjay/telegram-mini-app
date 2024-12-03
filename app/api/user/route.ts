@@ -5,6 +5,8 @@ export async function POST(req: Request) {
   try {
     const userData = await req.json();
 
+    console.log(userData);
+
     if (!userData || !userData.id) {
       return NextResponse.json({ error: "Invalid user" }, { status: 400 });
     }
