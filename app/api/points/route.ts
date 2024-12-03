@@ -3,7 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { telegramId } = await req.json();
+    const telegramId = await req.json();
+
+    console.log(telegramId);
 
     if (!telegramId) {
       return NextResponse.json({ error: "Invalid TelegramId" }, { status: 400 });
