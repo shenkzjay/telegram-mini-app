@@ -28,6 +28,14 @@ interface ClickProps {
   y: number;
 }
 
+interface TelegramUserData {
+  telegramId: number;
+  firstname: string;
+  lastname: string;
+  username: string;
+  point?: number;
+}
+
 declare global {
   interface Window {
     Telegram?: {
@@ -37,7 +45,7 @@ declare global {
 }
 
 export function Earn() {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<TelegramUserData | null>(null);
   const [points, setPoints] = useState(0);
   const [energy, setEnergy] = useState(1500);
   const [click, setClick] = useState<ClickProps[]>([]);
@@ -108,7 +116,7 @@ export function Earn() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ telegramId: userData.id }),
+        body: JSON.stringify({ telegramId: userData.telegramId }),
       });
 
       const data = await res.json();
