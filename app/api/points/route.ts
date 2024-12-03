@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const telegramId = await req.json();
+    const { telegramId } = await req.json();
 
     console.log(telegramId);
 
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     console.log(updatedUsersPoint);
 
     return NextResponse.json({ success: true, points: updatedUsersPoint });
-  } catch (error) {
-    return NextResponse.json({ error: "Internal server error" + error }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: `Internal server error: ${error.message}` }, { status: 500 });
   }
 }
