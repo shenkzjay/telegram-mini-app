@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { FooterNavbar } from "../footer/footer";
 import Image from "next/image";
 import SokCoin from "@/app/assets/imgs/coin.png";
@@ -81,6 +81,7 @@ export function Earn() {
           const res = await data.json();
 
           setUserData(res.users);
+          setPoints(res.users.point);
         }
       } else {
         return console.log("this is error");
@@ -134,14 +135,16 @@ export function Earn() {
     navigator.vibrate(0);
   };
 
+  const updateEnergy = useCallback(() => {
+    setEnergy((prevEnergy) => Math.min(prevEnergy + 1, 1500));
+  }, []);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setEnergy((prevEnergy) => Math.min(prevEnergy + 1, 1500));
-    }, 1000);
+    const interval = setInterval(updateEnergy, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [updateEnergy]);
 
   // useEffect(() => {
   //   const lastLogin = localStorage.getItem("lastLogin");
