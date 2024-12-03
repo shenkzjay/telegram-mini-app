@@ -42,6 +42,7 @@ export function Earn() {
   const [energy, setEnergy] = useState(1500);
   const [click, setClick] = useState<ClickProps[]>([]);
   const dailyLoginRef = useRef<HTMLDialogElement | null>(null);
+  const [error, setError] = useState("");
   const [dailyStreak] = useState(0);
   const [completedDays] = useState<number[]>([]);
   const [isStreakClaimed, setisStreakClaimed] = useState(false);
@@ -79,7 +80,7 @@ export function Earn() {
     initWebApp();
   }, [setUserData, userData]);
 
-  const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: React.PointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
     navigator.vibrate(100);
 
@@ -87,15 +88,35 @@ export function Earn() {
       return;
     }
 
+    if (!userData) return;
+
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     setClick((prev) => [...prev, { id: Date.now(), x, y }]);
 
-    setPoints(points + pointsAdded);
+    // setPoints(points + pointsAdded);
 
     setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
+
+    try {
+      const res = await fetch("/api/points", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ telegramId: userData.id }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setPoints(data.points);
+      }
+    } catch (error) {
+      setError("An error occurred while increasing points");
+    }
   };
 
   const handleAnimationEnd = (id: number) => {
