@@ -5,8 +5,6 @@ export async function POST(req: Request) {
   try {
     const userData = await req.json();
 
-    console.log(userData);
-
     if (!userData || !userData.id) {
       return NextResponse.json({ error: "Invalid user" }, { status: 400 });
     }
@@ -26,9 +24,7 @@ export async function POST(req: Request) {
       });
     }
 
-    console.log(users);
-
-    // return { user: users, status: 200 };
+    console.log({ users });
 
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {

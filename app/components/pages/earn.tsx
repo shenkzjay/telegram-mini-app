@@ -69,7 +69,7 @@ export function Earn() {
 
           const res = await data.json();
 
-          setUserData(res);
+          setUserData(res.users);
         }
       } else {
         return console.log("this is error");
