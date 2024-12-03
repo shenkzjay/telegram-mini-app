@@ -42,11 +42,13 @@ export function Earn() {
   const [energy, setEnergy] = useState(1500);
   const [click, setClick] = useState<ClickProps[]>([]);
   const dailyLoginRef = useRef<HTMLDialogElement | null>(null);
-  const [setError] = useState("");
+  const [error, setError] = useState("");
   const [dailyStreak] = useState(0);
   const [completedDays] = useState<number[]>([]);
   const [isStreakClaimed, setisStreakClaimed] = useState(false);
   const rewards = [5000, 10000, 25000, 50000, 100000, 250000, 750000];
+
+  console.log(error);
 
   // const pointsAdded = 10;
   const energySubtrated = 10;
@@ -115,7 +117,7 @@ export function Earn() {
         setPoints(data.points);
       }
     } catch (error) {
-      setError("An error occurred while increasing points");
+      setError("An error occurred while increasing points" + error);
     }
   };
 

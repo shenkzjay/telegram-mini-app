@@ -1,5 +1,4 @@
 import { prisma } from "@/app/lib/prisma";
-
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -17,6 +16,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, points: updatedUsersPoint });
   } catch (error) {
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" + error }, { status: 500 });
   }
 }
