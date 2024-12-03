@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     console.log(updatedUsersPoint);
 
     return NextResponse.json({ success: true, points: updatedUsersPoint });
-  } catch (error: any) {
-    return NextResponse.json({ error: `Internal server error: ${error.message}` }, { status: 500 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: `Internal server error: ${error}` }, { status: 500 });
   }
 }
