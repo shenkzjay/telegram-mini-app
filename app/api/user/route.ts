@@ -24,8 +24,6 @@ export async function POST(req: Request) {
       });
     }
 
-    console.log({ users });
-
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
     console.error("Error processing data" + error);

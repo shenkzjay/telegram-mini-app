@@ -14,6 +14,8 @@ export async function POST(req: Request) {
       data: { point: { increment: 10 } },
     });
 
+    console.log(updatedUsersPoint);
+
     return NextResponse.json({ success: true, points: updatedUsersPoint });
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" + error }, { status: 500 });
