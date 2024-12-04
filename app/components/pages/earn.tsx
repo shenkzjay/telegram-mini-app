@@ -64,6 +64,8 @@ export function Earn() {
   const energySubtrated = 10;
 
   useEffect(() => {
+    let eventSource: EventSource | null = null;
+
     const initWebApp = async () => {
       if (typeof window !== "undefined" && window.Telegram?.WebApp) {
         const tg = window.Telegram.WebApp;
@@ -99,6 +101,20 @@ export function Earn() {
 
           setUserData(user);
           setPoints(user.point);
+
+          eventSource = new EventSource("/api/sse");
+
+          eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.telegramId === user.telegramId) {
+              setPoints(data.points);
+            }
+          };
+
+          eventSource.onerror = (error) => {
+            console.error("SSE error:", error);
+            eventSource?.close();
+          };
         }
       } else {
         return console.log("this is error");
@@ -106,6 +122,12 @@ export function Earn() {
     };
 
     initWebApp();
+
+    return () => {
+      if (eventSource) {
+        eventSource.close();
+      }
+    };
   }, []);
 
   const updateEnergy = useCallback(() => {
@@ -254,19 +276,6 @@ export function Earn() {
   return (
     <main className="flex flex-col justify-between h-screen ">
       <div className="mx-6 mt-6">
-        {/* {userData && (
-            <ul>
-              <li>
-                <img src={userData.photo_url} width={100} height={100} alt={userData.photo_url} />
-              </li>
-              <li>ID: {userData.id}</li>
-              <li>first_name: {userData.first_name}</li>
-              <li>last_name: {userData.last_name}</li>
-              <li>language_code: {userData.language_code}</li>
-              <li>username: {userData.username}</li>
-              <li>is_premium: {userData.is_premium ? "YES" : "NO"}</li>
-            </ul>
-          )} */}
         <header>
           {userData ? (
             <div className="footerbg !rounded-full p-[2px] text-white flex flex-row gap-1 items-center mb-4 w-fit text-xs">
