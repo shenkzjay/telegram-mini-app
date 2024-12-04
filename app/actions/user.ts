@@ -35,6 +35,6 @@ export async function getUsers(userData: WebApp["initDataUnsafe"]) {
       }
     },
     ["usersId", userData.user?.id.toString() as string],
-    { tags: ["telegramUsers"] }
+    { tags: ["telegramUsers"], revalidate: 3600 }
   )();
 }
