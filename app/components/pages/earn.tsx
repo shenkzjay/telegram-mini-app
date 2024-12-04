@@ -105,7 +105,7 @@ export function Earn() {
     };
 
     initWebApp();
-  }, [setUserData, userData]);
+  }, []);
 
   const handleClick = async (e: React.PointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
