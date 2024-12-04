@@ -3,7 +3,7 @@
 import { prisma } from "../lib/prisma";
 import { WebApp } from "@twa-dev/types";
 import { unstable_cache } from "next/cache";
-export function getUsers(userData: WebApp["initDataUnsafe"]) {
+export async function getUsers(userData: WebApp["initDataUnsafe"]) {
   return unstable_cache(
     async () => {
       try {
