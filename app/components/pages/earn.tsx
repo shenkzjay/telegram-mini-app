@@ -118,7 +118,13 @@ export function Earn() {
 
   useEffect(() => {
     const savedEnergy = localStorage.getItem("energy");
-    if (savedEnergy) {
+    const lastUpdate = localStorage.getItem("lastUpdate");
+    if (savedEnergy && lastUpdate) {
+      const elapsedSeconds = Math.floor((Date.now() - parseInt(lastUpdate, 10)) / 1000);
+      const updatedEnergy = Math.min(parseInt(savedEnergy, 10) + elapsedSeconds, 1500);
+      setEnergy(updatedEnergy); // Set updated energy based on elapsed time
+      localStorage.setItem("energy", updatedEnergy.toString());
+    } else if (savedEnergy) {
       setEnergy(parseInt(savedEnergy, 10));
     }
 
