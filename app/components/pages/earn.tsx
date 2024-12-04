@@ -12,6 +12,7 @@ import { Cart } from "@/app/assets/svgs/cart";
 import Link from "next/link";
 import { WebApp } from "@twa-dev/types";
 import { getUsers } from "@/app/actions/user";
+import { updatePoints } from "@/app/actions/points";
 
 export interface UserData {
   id: number;
@@ -128,15 +129,17 @@ export function Earn() {
     setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
 
     try {
-      const res = await fetch("/api/points", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ telegramId: userData.telegramId }),
-      });
+      // const res = await fetch("/api/points", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ telegramId: userData.telegramId }),
+      // });
 
-      const data = await res.json();
+      // const data = await res.json();
+
+      const data = await updatePoints(userData.telegramId);
 
       if (data.success) {
         setPoints(data.points);
