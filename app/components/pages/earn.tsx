@@ -64,8 +64,6 @@ export function Earn() {
   const energySubtrated = 10;
 
   useEffect(() => {
-    let eventSource: EventSource | null = null;
-
     const initWebApp = async () => {
       if (typeof window !== "undefined" && window.Telegram?.WebApp) {
         const tg = window.Telegram.WebApp;
