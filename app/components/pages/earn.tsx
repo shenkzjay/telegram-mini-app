@@ -112,6 +112,7 @@ export function Earn() {
     setEnergy((prevEnergy) => {
       const newEnergy = Math.min(prevEnergy + 1, 1500);
       localStorage.setItem("energy", newEnergy.toString());
+      localStorage.setItem("lastUpdate", Date.now().toString());
       return newEnergy;
     });
   }, []);
