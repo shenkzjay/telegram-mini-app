@@ -58,7 +58,7 @@ export function Earn() {
   const [isStreakClaimed, setisStreakClaimed] = useState(false);
   const rewards = [5000, 10000, 25000, 50000, 100000, 250000, 750000];
 
-  console.log(error);
+  console.log({ error });
 
   // const pointsAdded = 10;
   const energySubtrated = 10;
@@ -102,6 +102,7 @@ export function Earn() {
           setUserData(user);
           setPoints(user.point);
 
+          //we used Server side events to get real-time points update from the server because the api response delays due to concurrency
           eventSource = new EventSource("/api/sse");
 
           eventSource.onmessage = (event) => {
