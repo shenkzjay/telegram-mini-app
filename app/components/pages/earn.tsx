@@ -106,6 +106,7 @@ export function Earn() {
 
           eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            console.log("Received update:", data);
             if (data.telegramId === user.telegramId) {
               setPoints(data.points);
             }
