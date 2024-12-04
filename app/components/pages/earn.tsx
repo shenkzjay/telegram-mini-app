@@ -108,6 +108,26 @@ export function Earn() {
     initWebApp();
   }, []);
 
+  const updateEnergy = useCallback(() => {
+    setEnergy((prevEnergy) => {
+      const newEnergy = Math.min(prevEnergy + 1, 1500);
+      localStorage.setItem("energy", newEnergy.toString());
+      return newEnergy;
+    });
+  }, []);
+
+  useEffect(() => {
+    const savedEnergy = localStorage.getItem("energy");
+    if (savedEnergy) {
+      setEnergy(parseInt(savedEnergy, 10));
+    }
+
+    const interval = setInterval(updateEnergy, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [updateEnergy]);
+
   const handleClick = async (e: React.PointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
     navigator.vibrate(100);
@@ -153,17 +173,6 @@ export function Earn() {
     setClick((prev) => prev.filter((click) => click.id !== id));
     navigator.vibrate(0);
   };
-
-  const updateEnergy = useCallback(() => {
-    setEnergy((prevEnergy) => Math.min(prevEnergy + 1, 1500));
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(updateEnergy, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [updateEnergy]);
 
   // useEffect(() => {
   //   const lastLogin = localStorage.getItem("lastLogin");
