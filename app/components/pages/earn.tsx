@@ -101,22 +101,6 @@ export function Earn() {
 
           setUserData(user);
           setPoints(user.point);
-
-          //we used Server side events to get real-time points update from the server because the api response delays due to concurrency
-          eventSource = new EventSource("/api/sse");
-
-          eventSource.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log("Received update:", data);
-            if (data.telegramId === user.telegramId) {
-              setPoints(data.points);
-            }
-          };
-
-          eventSource.onerror = (error) => {
-            console.error("SSE error:", error);
-            eventSource?.close();
-          };
         }
       } else {
         return console.log("this is error");
@@ -124,12 +108,6 @@ export function Earn() {
     };
 
     initWebApp();
-
-    return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
-    };
   }, []);
 
   const updateEnergy = useCallback(() => {
