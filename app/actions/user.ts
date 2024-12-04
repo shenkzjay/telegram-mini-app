@@ -3,7 +3,7 @@
 import { prisma } from "../lib/prisma";
 import { WebApp } from "@twa-dev/types";
 import { unstable_cache } from "next/cache";
-export async function getUsers(userData: WebApp["initDataUnsafe"]) {
+export function getUsers(userData: WebApp["initDataUnsafe"]) {
   return unstable_cache(
     async () => {
       try {
@@ -36,5 +36,5 @@ export async function getUsers(userData: WebApp["initDataUnsafe"]) {
     },
     ["usersId", userData.user?.id.toString() as string],
     { tags: ["telegramUsers"], revalidate: 3600 }
-  );
+  )();
 }
