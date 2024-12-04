@@ -11,6 +11,7 @@ import { Tick } from "@/app/assets/svgs/tick";
 import { Cart } from "@/app/assets/svgs/cart";
 import Link from "next/link";
 import { WebApp } from "@twa-dev/types";
+import { getUsers } from "@/app/actions/user";
 
 export interface UserData {
   id: number;
@@ -33,7 +34,7 @@ interface TelegramUserData {
   firstname: string;
   lastname: string;
   username: string;
-  point?: number;
+  point: number;
 }
 
 declare global {
@@ -70,18 +71,33 @@ export function Earn() {
         const initDataUnsafe = tg.initDataUnsafe || {};
 
         if (initDataUnsafe.user) {
-          const data = await fetch("/api/user", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(initDataUnsafe.user),
-          });
+          // const data = await fetch("/api/user", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify(initDataUnsafe.user),
+          // });
 
-          const res = await data.json();
+          // const res = await data.json();
 
-          setUserData(res.users);
-          setPoints(res.users.point);
+          const res = await getUsers(initDataUnsafe);
+
+          if (!res || !res.users) {
+            console.error("Failed to fetch user data");
+            return;
+          }
+
+          const user: TelegramUserData = {
+            telegramId: res.users.telegramId,
+            firstname: res.users.firstname || "",
+            lastname: res.users.lastname || "",
+            username: res.users.username || "",
+            point: res.users.point || 0,
+          };
+
+          setUserData(user);
+          setPoints(user.point);
         }
       } else {
         return console.log("this is error");
