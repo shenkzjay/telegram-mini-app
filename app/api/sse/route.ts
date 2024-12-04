@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { EventEmitter } from "events";
-
-const emitter = new EventEmitter();
-emitter.setMaxListeners(0);
+import emitter from "@/app/lib/emitter";
 
 export async function GET(request: NextRequest) {
   const response = new NextResponse(
@@ -46,5 +43,3 @@ export async function GET(request: NextRequest) {
 
   return response;
 }
-
-export { emitter };
