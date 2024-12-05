@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FooterNavbar } from "../footer/footer";
 import Image from "next/image";
 import SokCoin from "@/app/assets/imgs/coin.png";
@@ -72,16 +72,6 @@ export function Earn() {
         const initDataUnsafe = tg.initDataUnsafe || {};
 
         if (initDataUnsafe.user) {
-          // const data = await fetch("/api/user", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify(initDataUnsafe.user),
-          // });
-
-          // const res = await data.json();
-
           const res = await getUsers(initDataUnsafe);
 
           if (!res || !res.users) {
@@ -89,6 +79,7 @@ export function Earn() {
             return;
           }
 
+          //had to restructure the user object for type safety
           const user: TelegramUserData = {
             telegramId: res.users.telegramId,
             firstname: res.users.firstname || "",
@@ -108,28 +99,38 @@ export function Earn() {
     initWebApp();
   }, []);
 
-  const updateEnergy = useCallback(() => {
+  const updateEnergy = () => {
     setEnergy((prevEnergy) => {
       const newEnergy = Math.min(prevEnergy + 1, 1500);
       localStorage.setItem("energy", newEnergy.toString());
       localStorage.setItem("lastUpdate", Date.now().toString());
       return newEnergy;
     });
-  }, []);
+  };
 
   useEffect(() => {
     const savedEnergy = localStorage.getItem("energy");
+
     const lastUpdate = localStorage.getItem("lastUpdate");
+
     if (savedEnergy && lastUpdate) {
-      const elapsedSeconds = Math.floor((Date.now() - parseInt(lastUpdate, 10)) / 1000);
+      const elapsedSeconds = Math.floor((Date.now() - parseInt(lastUpdate, 10)) / 1000); // divide by 1000 to convert elapsed time to seconds
+
+      //i'm calculating the energy gained since the last updare
+      //this ensures that energy gained is updated when the app is closed
+      //or user navigates to another page
+      //the energy limit is capped at 1500
       const updatedEnergy = Math.min(parseInt(savedEnergy, 10) + elapsedSeconds, 1500);
-      setEnergy(updatedEnergy); // Set updated energy based on elapsed time
+
+      setEnergy(updatedEnergy);
+
       localStorage.setItem("energy", updatedEnergy.toString());
     } else if (savedEnergy) {
       setEnergy(parseInt(savedEnergy, 10));
     }
 
     const interval = setInterval(updateEnergy, 1000);
+
     return () => {
       clearInterval(interval);
     };
@@ -137,8 +138,10 @@ export function Earn() {
 
   const handleClick = async (e: React.PointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     navigator.vibrate(100);
 
+    // prevents the energy from going below zero
     if (energy - energySubtrated < 0) {
       return;
     }
@@ -149,23 +152,15 @@ export function Earn() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    //updating the values of x and y coordinate
+    //by creating a new array to keep track of previous clicks and new clicks
     setClick((prev) => [...prev, { id: Date.now(), x, y }]);
 
-    // setPoints(points + pointsAdded);
-
+    //used a conditional statement to set the energy
+    //to prevent the energy from displaying negative values
     setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
 
     try {
-      // const res = await fetch("/api/points", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ telegramId: userData.telegramId }),
-      // });
-
-      // const data = await res.json();
-
       const data = await updatePoints(userData.telegramId);
 
       if (data.success) {
@@ -378,36 +373,6 @@ export function Earn() {
                 </span>
               );
             })}
-            {/* <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 2</span>
-              <span>🪙</span>
-              <p>10k</p>
-            </span>
-            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 3</span>
-              <span>🪙</span>
-              <p>25k</p>
-            </span>
-            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 4</span>
-              <span>🪙</span>
-              <p>50K</p>
-            </span>
-            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 5</span>
-              <span>🪙</span>
-              <p>100k</p>
-            </span>
-            <span className="grid grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 6</span>
-              <span>🪙</span>
-              <p>250k</p>
-            </span>
-            <span className="grid col-span-3 grid-rows-subgrid row-span-3 p-2 footerbg text-sm font-semibold justify-center">
-              <span>Day 7</span>
-              <span>🪙</span>
-              <p>1M</p>
-            </span> */}
           </div>
           <div className="flex justify-center items-center m-6">
             {!isStreakClaimed && (
