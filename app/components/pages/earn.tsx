@@ -158,7 +158,12 @@ export function Earn() {
 
     //used a conditional statement to set the energy
     //to prevent the energy from displaying negative values
-    setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
+    // setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
+
+    setEnergy((prevEnergy) => {
+      const newEnergy = prevEnergy - energySubtrated;
+      return Math.max(newEnergy, 0);
+    });
 
     try {
       const data = await updatePoints(userData.telegramId);
