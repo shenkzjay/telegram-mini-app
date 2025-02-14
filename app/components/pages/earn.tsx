@@ -58,8 +58,6 @@ export function Earn() {
   const [isStreakClaimed, setisStreakClaimed] = useState(false);
   const rewards = [5000, 10000, 25000, 50000, 100000, 250000, 750000];
 
-  console.log({ error });
-
   // const pointsAdded = 10;
   const energySubtrated = 10;
 
@@ -158,22 +156,22 @@ export function Earn() {
 
     //used a conditional statement to set the energy
     //to prevent the energy from displaying negative values
-    setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
+    // setEnergy(energy - energySubtrated < 0 ? 0 : energy - energySubtrated);
 
-    // setEnergy((prevEnergy) => {
-    //   const newEnergy = prevEnergy - energySubtrated;
-    //   return Math.max(newEnergy, 0);
-    // });
+    setEnergy((prevEnergy) => {
+      const newEnergy = prevEnergy - energySubtrated;
+      return Math.max(newEnergy, 0);
+    });
 
-    try {
-      const data = await updatePoints(userData.telegramId);
+    // try {
+    //   const data = await updatePoints(userData.telegramId);
 
-      if (data.success) {
-        setPoints(data.points);
-      }
-    } catch (error) {
-      setError("An error occurred while increasing points" + error);
-    }
+    //   if (data.success) {
+    //     setPoints(data.points);
+    //   }
+    // } catch (error) {
+    //   setError("An error occurred while increasing points" + error);
+    // }
   };
 
   const handleAnimationEnd = (id: number) => {
@@ -251,6 +249,8 @@ export function Earn() {
     setisStreakClaimed(true);
   };
 
+  console.log({ click, energy, points });
+
   return (
     <main className="flex flex-col justify-between h-screen ">
       <div className="mx-6 mt-6">
@@ -292,10 +292,7 @@ export function Earn() {
         </header>
 
         <div className="grid grid-cols-[repeat(auto-fit,minmax(10px,1fr))] gap-4 mt-4 justify-center item-center">
-          <button
-            onClick={handleOpenDailyLoginModal}
-            className="tickgroup entryanime grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-xs justify-center bg-[#262626] text-white items-center"
-          >
+          <button className="tickgroup entryanime grid grid-rows-subgrid p-2 rounded-xl row-span-2 text-xs justify-center bg-[#262626] text-white items-center">
             <span className="text-center text-3xl grid justify-center">
               <Tick />
             </span>
@@ -381,10 +378,7 @@ export function Earn() {
           </div>
           <div className="flex justify-center items-center m-6">
             {!isStreakClaimed && (
-              <button
-                onClick={handleClaimReward}
-                className="flex w-full justify-center items-center font-bold  py-2 px-4 bg-orange-500 rounded-xl text-white"
-              >
+              <button className="flex w-full justify-center items-center font-bold  py-2 px-4 bg-orange-500 rounded-xl text-white">
                 Claim {rewards[dailyStreak - 1] || rewards[rewards.length - 1]}k coins
               </button>
             )}
