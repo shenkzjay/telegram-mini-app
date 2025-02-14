@@ -240,15 +240,15 @@ export function Earn() {
   //   }
   // };
 
-  // const handleClaimReward = () => {
-  //   const currentReward = rewards[dailyStreak - 1] || rewards[rewards.length - 1];
+  const handleClaimReward = () => {
+    const currentReward = rewards[dailyStreak - 1] || rewards[rewards.length - 1];
 
-  //   setPoints((prevPoints) => prevPoints + currentReward);
+    setPoints((prevPoints) => prevPoints + currentReward);
 
-  //   dailyLoginRef.current?.close();
+    dailyLoginRef.current?.close();
 
-  //   setisStreakClaimed(true);
-  // };
+    setisStreakClaimed(true);
+  };
 
   console.log({ click, energy, points });
 
@@ -379,7 +379,10 @@ export function Earn() {
           </div>
           <div className="flex justify-center items-center m-6">
             {!isStreakClaimed && (
-              <button className="flex w-full justify-center items-center font-bold  py-2 px-4 bg-orange-500 rounded-xl text-white">
+              <button
+                onClick={handleClaimReward}
+                className="flex w-full justify-center items-center font-bold  py-2 px-4 bg-orange-500 rounded-xl text-white"
+              >
                 Claim {rewards[dailyStreak - 1] || rewards[rewards.length - 1]}k coins
               </button>
             )}
