@@ -144,7 +144,7 @@ export function Earn() {
       return;
     }
 
-    if (!userData) return;
+    // if (!userData) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
