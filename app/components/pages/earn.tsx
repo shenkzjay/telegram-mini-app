@@ -61,6 +61,8 @@ export function Earn() {
   // const pointsAdded = 10;
   const energySubtrated = 10;
 
+  console.log(error);
+
   useEffect(() => {
     const initWebApp = async () => {
       if (typeof window !== "undefined" && window.Telegram?.WebApp) {
@@ -144,8 +146,7 @@ export function Earn() {
       return;
     }
 
-    // if (!userData) return;
-
+    if (!userData) return console.log("no user found");
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -163,15 +164,15 @@ export function Earn() {
       return Math.max(newEnergy, 0);
     });
 
-    // try {
-    //   const data = await updatePoints(userData.telegramId);
+    try {
+      const data = await updatePoints(userData.telegramId);
 
-    //   if (data.success) {
-    //     setPoints(data.points);
-    //   }
-    // } catch (error) {
-    //   setError("An error occurred while increasing points" + error);
-    // }
+      if (data.success) {
+        setPoints(data.points);
+      }
+    } catch (error) {
+      setError("An error occurred while increasing points" + error);
+    }
   };
 
   const handleAnimationEnd = (id: number) => {
@@ -233,21 +234,21 @@ export function Earn() {
   //   return () => clearTimeout(midnightTimeout);
   // }, []);
 
-  const handleOpenDailyLoginModal = () => {
-    if (dailyLoginRef.current) {
-      dailyLoginRef.current.showModal();
-    }
-  };
+  // const handleOpenDailyLoginModal = () => {
+  //   if (dailyLoginRef.current) {
+  //     dailyLoginRef.current.showModal();
+  //   }
+  // };
 
-  const handleClaimReward = () => {
-    const currentReward = rewards[dailyStreak - 1] || rewards[rewards.length - 1];
+  // const handleClaimReward = () => {
+  //   const currentReward = rewards[dailyStreak - 1] || rewards[rewards.length - 1];
 
-    setPoints((prevPoints) => prevPoints + currentReward);
+  //   setPoints((prevPoints) => prevPoints + currentReward);
 
-    dailyLoginRef.current?.close();
+  //   dailyLoginRef.current?.close();
 
-    setisStreakClaimed(true);
-  };
+  //   setisStreakClaimed(true);
+  // };
 
   console.log({ click, energy, points });
 
